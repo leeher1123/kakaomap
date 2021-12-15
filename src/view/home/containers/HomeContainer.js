@@ -1,13 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Sidebar from '../components/Sidebar';
+import { actions } from '../redux/slice';
 
 const { kakao } = window;
 
 const HomeContainer = () => {
+  const markers = [];
+  const dispatch = useDispatch();
+  const { searchResults } = useSelector((state) => state.home);
   const categoryPlace = useSelector((state) => state.home.place);
   useEffect(() => {
     const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
@@ -34,6 +38,37 @@ const HomeContainer = () => {
       });
     }
 
+    function displayPagination(pagination) {
+      const paginationEl = document.getElementById('pagination');
+      const fragment = document.createDocumentFragment();
+      let i;
+
+      // 기존에 추가된 페이지번호를 삭제합니다
+      while (paginationEl.hasChildNodes()) {
+        paginationEl.removeChild(paginationEl.lastChild);
+      }
+
+      for (i = 1; i <= pagination.last; i++) {
+        const el = document.createElement('a');
+        el.href = '#';
+        el.innerHTML = i;
+
+        if (i === pagination.current) {
+          el.className = 'on';
+        } else {
+          // eslint-disable-next-line no-shadow
+          el.onclick = (function (i) {
+            return function () {
+              pagination.gotoPage(i);
+            };
+          }(i));
+        }
+
+        fragment.appendChild(el);
+      }
+      paginationEl.appendChild(fragment);
+    }
+
     // 키워드 검색 완료 시 호출되는 콜백함수 입니다
     function placesSearchCB(data, status, pagination) {
       if (status === kakao.maps.services.Status.OK) {
@@ -48,6 +83,8 @@ const HomeContainer = () => {
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
         map.setBounds(bounds);
+        displayPagination(pagination);
+        dispatch(actions.getSearchResults(data));
       }
     }
 
@@ -60,6 +97,25 @@ const HomeContainer = () => {
       <Map id="myMap" />
       <Sidebar />
       <Bar />
+      <div id="result-list">
+        {searchResults.map((item, index) => (
+          <div style={{ marginTop: '20px' }}>
+            <div>
+              <h5>{item.place_name}</h5>
+              {item.road_address_name ? (
+                <div>
+                  <span>{item.road_address_name}</span>
+                  <span>{item.address_name}</span>
+                </div>
+              ) : (
+                <span>{item.address_name}</span>
+              )}
+              <span>{item.phone}</span>
+            </div>
+          </div>
+        ))}
+        <div id="pagination" />
+      </div>
     </Container>
   );
 };
