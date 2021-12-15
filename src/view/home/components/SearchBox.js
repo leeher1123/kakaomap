@@ -39,9 +39,8 @@ const SearchBox = () => {
 };
 
 const Container = styled.div`
+  padding: 20px 20px 2px 20px;
   background-color: #258fff;
-  color: #fff;
-  padding: 20px;
 `;
 
 const SearchTop = styled.div`
@@ -78,7 +77,7 @@ const Button = styled.button`
   right: 5px;
   width: 36px;
   height: 36px;
-  color: rgba(118, 118, 118, 0.35);
+  color: rgba(17, 17, 17, 0.75);
   background: none;
   outline: 0;
   border: 0;

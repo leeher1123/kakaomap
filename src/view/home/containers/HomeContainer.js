@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { useDispatch, useSelector } from 'react-redux';
 
 import Sidebar from '../components/Sidebar';
 import { actions } from '../redux/slice';
+import ResultList from '../components/ResultList';
 
 const { kakao } = window;
 
 const HomeContainer = () => {
-  const markers = [];
   const dispatch = useDispatch();
-  const { searchResults } = useSelector((state) => state.home);
   const categoryPlace = useSelector((state) => state.home.place);
   useEffect(() => {
     const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
@@ -97,25 +96,6 @@ const HomeContainer = () => {
       <Map id="myMap" />
       <Sidebar />
       <Bar />
-      <div id="result-list">
-        {searchResults.map((item, index) => (
-          <div style={{ marginTop: '20px' }}>
-            <div>
-              <h5>{item.place_name}</h5>
-              {item.road_address_name ? (
-                <div>
-                  <span>{item.road_address_name}</span>
-                  <span>{item.address_name}</span>
-                </div>
-              ) : (
-                <span>{item.address_name}</span>
-              )}
-              <span>{item.phone}</span>
-            </div>
-          </div>
-        ))}
-        <div id="pagination" />
-      </div>
     </Container>
   );
 };
@@ -125,7 +105,7 @@ const Container = styled.div`
 `;
 
 const Map = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 390px;
@@ -135,7 +115,7 @@ const Map = styled.div`
 `;
 
 const Bar = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 390px;
