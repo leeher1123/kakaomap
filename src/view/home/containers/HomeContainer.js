@@ -3,15 +3,23 @@ import styled from 'styled-components';
 
 import { useDispatch, useSelector } from 'react-redux';
 
+import cn from 'classnames';
+
 import Sidebar from '../components/Sidebar';
 import { actions } from '../redux/slice';
-import ResultList from '../components/ResultList';
 
 const { kakao } = window;
 
 const HomeContainer = () => {
   const dispatch = useDispatch();
   const categoryPlace = useSelector((state) => state.home.place);
+  const { sidebar } = useSelector((state) => state.home);
+  const { mapState } = useSelector((state) => state.home);
+
+  const handleBtn = () => {
+    dispatch(actions.handleSidebar(!sidebar));
+    dispatch(actions.handleMapState(!mapState));
+  };
   useEffect(() => {
     const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
     const container = document.getElementById('myMap');
@@ -93,9 +101,11 @@ const HomeContainer = () => {
   }, [categoryPlace]);
   return (
     <Container>
-      <Map id="myMap" />
-      <Sidebar />
-      <Bar />
+      <Map id="myMap" className={cn({ isActive: mapState })} />
+      {
+        sidebar && <Sidebar />
+      }
+      <Bar className={cn({ isActive: mapState })} onClick={handleBtn} />
     </Container>
   );
 };
@@ -112,6 +122,15 @@ const Map = styled.div`
   right: 0;
   width: 100%;
   height: 100%;
+  &.isActive {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const Bar = styled.div`
@@ -125,6 +144,12 @@ const Bar = styled.div`
   z-index: 1000;
   background-image: url('https://t1.daumcdn.net/localimg/localimages/07/2018/pc/shadow/img_navi2x.png');
   background-size: 28px 126px;
+  &.isActive {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+  }
 `;
 
 export default HomeContainer;

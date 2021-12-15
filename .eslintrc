@@ -60,6 +60,7 @@
     "camelcase": "off",
     "no-plusplus": "off",
     "no-useless-return": "off",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "no-param-reassign": "off"
   }
 }

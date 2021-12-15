@@ -67,13 +67,15 @@ const Input = styled.input`
   border-radius: 3px;
   outline: 0;
   border: 0;
-  color: #767676;
   background: #fff;
+  font-size: 16px;
+  color: #111;
+  font-weight: bold;
 `;
 
 const Button = styled.button`
   position: absolute;
-  top: 5px;
+  top: 7px;
   right: 5px;
   width: 36px;
   height: 36px;
