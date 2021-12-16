@@ -7,6 +7,7 @@ import cn from 'classnames';
 
 import Sidebar from '../components/Sidebar';
 import { actions } from '../redux/slice';
+import SearchBox from '../components/SearchBox';
 
 const { kakao } = window;
 
@@ -47,6 +48,7 @@ const HomeContainer = () => {
 
     function displayPagination(pagination) {
       const paginationEl = document.getElementById('pagination');
+      if (!paginationEl) return;
       const fragment = document.createDocumentFragment();
       let i;
 
@@ -103,7 +105,7 @@ const HomeContainer = () => {
     <Container>
       <Map id="myMap" className={cn({ isActive: mapState })} />
       {
-        sidebar && <Sidebar />
+        sidebar ? <Sidebar /> : <SearchBox />
       }
       <Bar className={cn({ isActive: mapState })} onClick={handleBtn} />
     </Container>
@@ -123,13 +125,7 @@ const Map = styled.div`
   width: 100%;
   height: 100%;
   &.isActive {
-    position: fixed;
-    top: 0;
-    bottom: 0;
     left: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
   }
 `;
 
@@ -145,9 +141,6 @@ const Bar = styled.div`
   background-image: url('https://t1.daumcdn.net/localimg/localimages/07/2018/pc/shadow/img_navi2x.png');
   background-size: 28px 126px;
   &.isActive {
-    position: fixed;
-    top: 0;
-    bottom: 0;
     left: 0;
   }
 `;

@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { HiOutlineMenu } from 'react-icons/hi';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import cn from 'classnames';
 
 import { actions } from '../redux/slice';
 
 const SearchBox = () => {
   const [value, setValue] = useState('');
+  const { mapState } = useSelector((state) => state.home);
   const dispatch = useDispatch();
   const onSubmit = (e) => {
     e.preventDefault();
@@ -18,7 +21,7 @@ const SearchBox = () => {
     setValue(e.target.value);
   };
   return (
-    <Container>
+    <Container className={cn({ isActive: mapState })}>
       <SearchTop>
         <span><HiOutlineMenu /></span>
         <p>
@@ -59,6 +62,9 @@ const SearchTop = styled.div`
 const Form = styled.form`
   position: relative;
   width: 350px;
+  .isActive & {
+    border: 1px solid #000;
+  }
 `;
 
 const Input = styled.input`
