@@ -63,7 +63,7 @@ const Form = styled.form`
   position: relative;
   width: 350px;
   .isActive & {
-    border: 1px solid #000;
+    border: 3px solid #258fff;
   }
 `;
 
