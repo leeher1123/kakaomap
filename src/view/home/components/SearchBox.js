@@ -34,6 +34,7 @@ const SearchBox = () => {
           type="text"
           onChange={onChange}
           value={value}
+          placeholder="장소, 주소 검색"
         />
         <Button><AiOutlineSearch /></Button>
       </Form>
@@ -63,6 +64,9 @@ const Form = styled.form`
   position: relative;
   width: 350px;
   .isActive & {
+    position: fixed;
+    top: 30px;
+    left: 50px;
     border: 3px solid #258fff;
   }
 `;
@@ -77,6 +81,10 @@ const Input = styled.input`
   font-size: 16px;
   color: #111;
   font-weight: bold;
+  ::-webkit-input-placeholder {
+    color: #767676;
+    font-weight: 400;
+  }
 `;
 
 const Button = styled.button`

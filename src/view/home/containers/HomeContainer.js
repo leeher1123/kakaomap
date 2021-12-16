@@ -140,6 +140,7 @@ const Bar = styled.div`
   z-index: 1000;
   background-image: url('https://t1.daumcdn.net/localimg/localimages/07/2018/pc/shadow/img_navi2x.png');
   background-size: 28px 126px;
+  cursor: pointer;
   &.isActive {
     left: 0;
   }
